@@ -41,7 +41,7 @@
         input[type="checkbox"] {
             margin-right: 5px;
         }
-        input[type="text"] {
+        input[type="text"], input[type="email"] {
             width: 100%;
             padding: 8px;
             margin-bottom: 10px;
@@ -59,9 +59,15 @@
         button:hover {
             background: #2980b9;
         }
-        #status {
+        #status, #debug {
             margin-top: 20px;
             font-weight: bold;
+        }
+        #debug {
+            white-space: pre-wrap;
+            background: #f1f1f1;
+            padding: 10px;
+            border-radius: 4px;
         }
     </style>
 </head>
@@ -137,16 +143,17 @@
         <button type="submit">Submit</button>
     </form>
     <div id="status"></div>
+    <div id="debug"></div>
 
     <script>
         const form = document.getElementById('memorialForm');
         const status = document.getElementById('status');
+        const debug = document.getElementById('debug');
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             const formData = new FormData(form);
 
-            // Prepare the data for submission
             let submissionData = {};
             for (let [key, value] of formData.entries()) {
                 if (key.endsWith('[]')) {
@@ -160,17 +167,18 @@
                 }
             }
 
-            // Add formatted response with {halt} tags
             submissionData['formatted_response'] = `
 Submitter: ${submissionData['submitterName']} (${submissionData['submitterEmail']})
 {halt}
-1. ${submissionData['contentType'].join(', ')}
+1. ${submissionData['contentType'] ? submissionData['contentType'].join(', ') : 'None selected'}
 {halt}
-2. ${submissionData['tone'].join(', ')}
+2. ${submissionData['tone'] ? submissionData['tone'].join(', ') : 'None selected'}
 {halt}
-3. ${submissionData['background'].join(', ')}
+3. ${submissionData['background'] ? submissionData['background'].join(', ') : 'None selected'}
 {halt}{end}
             `.trim();
+
+            debug.textContent = 'Sending data: ' + JSON.stringify(submissionData, null, 2);
 
             fetch(form.action, {
                 method: 'POST',
@@ -180,19 +188,18 @@ Submitter: ${submissionData['submitterName']} (${submissionData['submitterEmail'
                     'Content-Type': 'application/json'
                 }
             }).then(response => {
-                if (response.ok) {
+                debug.textContent += '\n\nResponse status: ' + response.status;
+                return response.json().then(data => ({status: response.status, body: data}));
+            }).then(({status, body}) => {
+                debug.textContent += '\n\nResponse body: ' + JSON.stringify(body, null, 2);
+                if (status === 200) {
                     status.innerHTML = "Thanks for your submission!";
                     form.reset();
                 } else {
-                    response.json().then(data => {
-                        if (Object.hasOwn(data, 'errors')) {
-                            status.innerHTML = data["errors"].map(error => error["message"]).join(", ");
-                        } else {
-                            status.innerHTML = "Oops! There was a problem submitting your form";
-                        }
-                    })
+                    status.innerHTML = "Oops! There was a problem submitting your form";
                 }
             }).catch(error => {
+                debug.textContent += '\n\nError: ' + error.message;
                 status.innerHTML = "Oops! There was a problem submitting your form";
             });
         });
