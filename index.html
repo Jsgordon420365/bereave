@@ -145,41 +145,36 @@
     <div id="status"></div>
     <div id="debug"></div>
 
-    <script>
+    <s<script>
         const form = document.getElementById('memorialForm');
         const status = document.getElementById('status');
         const debug = document.getElementById('debug');
-
+    
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             const formData = new FormData(form);
-
-            let submissionData = {};
-            for (let [key, value] of formData.entries()) {
-                if (key.endsWith('[]')) {
-                    key = key.slice(0, -2);
-                    if (!submissionData[key]) {
-                        submissionData[key] = [];
-                    }
-                    submissionData[key].push(value);
-                } else {
-                    submissionData[key] = value;
-                }
-            }
-
+    
+            let submissionData = {
+                submitterName: formData.get('submitterName'),
+                submitterEmail: formData.get('submitterEmail'),
+                contentType: formData.getAll('contentType[]'),
+                tone: formData.getAll('tone[]'),
+                background: formData.getAll('background[]')
+            };
+    
             submissionData['formatted_response'] = `
-Submitter: ${submissionData['submitterName']} (${submissionData['submitterEmail']})
-{halt}
-1. ${submissionData['contentType'] ? submissionData['contentType'].join(', ') : 'None selected'}
-{halt}
-2. ${submissionData['tone'] ? submissionData['tone'].join(', ') : 'None selected'}
-{halt}
-3. ${submissionData['background'] ? submissionData['background'].join(', ') : 'None selected'}
-{halt}{end}
+    Submitter: ${submissionData.submitterName} (${submissionData.submitterEmail})
+    {halt}
+    1. ${submissionData.contentType.join(', ') || 'None selected'}
+    {halt}
+    2. ${submissionData.tone.join(', ') || 'None selected'}
+    {halt}
+    3. ${submissionData.background.join(', ') || 'None selected'}
+    {halt}{end}
             `.trim();
-
+    
             debug.textContent = 'Sending data: ' + JSON.stringify(submissionData, null, 2);
-
+    
             fetch(form.action, {
                 method: 'POST',
                 body: JSON.stringify(submissionData),
@@ -193,14 +188,18 @@ Submitter: ${submissionData['submitterName']} (${submissionData['submitterEmail'
             }).then(({status, body}) => {
                 debug.textContent += '\n\nResponse body: ' + JSON.stringify(body, null, 2);
                 if (status === 200) {
-                    status.innerHTML = "Thanks for your submission!";
-                    form.reset();
+                    status.innerHTML = '<div style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin-bottom: 10px;">Thanks for your submission! <button id="submitAnother" style="background-color: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">Submit Another</button></div>';
+                    document.getElementById('submitAnother').addEventListener('click', function() {
+                        form.reset();
+                        status.innerHTML = '';
+                        debug.textContent = '';
+                    });
                 } else {
-                    status.innerHTML = "Oops! There was a problem submitting your form";
+                    status.innerHTML = '<div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 4px;">Oops! There was a problem submitting your form</div>';
                 }
             }).catch(error => {
                 debug.textContent += '\n\nError: ' + error.message;
-                status.innerHTML = "Oops! There was a problem submitting your form";
+                status.innerHTML = '<div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 4px;">Oops! There was a problem submitting your form</div>';
             });
         });
     </script>
