@@ -186,9 +186,9 @@ Submitter: ${submissionData.submitterName} (${submissionData.submitterEmail})
             }).then(response => {
                 debug.textContent += '\n\nResponse status: ' + response.status;
                 return response.json().then(data => ({status: response.status, body: data}));
-            }).then(({status, body}) => {
-                debug.textContent += '\n\nResponse body: ' + JSON.stringify(body, null, 2);
-                if (status === 200) {
+            }).then(response => {
+                debug.textContent += '\n\nResponse status: ' + response.status;
+                if (response.ok) {
                     const successMessage = document.createElement('div');
                     successMessage.style.cssText = 'background-color: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin-bottom: 10px;';
                     successMessage.innerHTML = 'Thanks for your submission! ';
@@ -201,12 +201,18 @@ Submitter: ${submissionData.submitterName} (${submissionData.submitterEmail})
                         status.innerHTML = '';
                         debug.textContent = '';
                     });
-
+            
                     successMessage.appendChild(submitAnotherButton);
                     status.innerHTML = '';
                     status.appendChild(successMessage);
                 } else {
-                    status.innerHTML = '<div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 4px;">Oops! There was a problem submitting your form</div>';
+                    response.json().then(data => {
+                        debug.textContent += '\n\nResponse body: ' + JSON.stringify(data, null, 2);
+                        status.innerHTML = '<div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 4px;">Oops! There was a problem submitting your form</div>';
+                    }).catch(error => {
+                        debug.textContent += '\n\nError: ' + error.message;
+                        status.innerHTML = '<div style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 4px;">Oops! There was a problem submitting your form</div>';
+                    });
                 }
             }).catch(error => {
                 debug.textContent += '\n\nError: ' + error.message;
