@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memorial Content Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        form {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .options {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+        }
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        #status {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Memorial Content Form</h1>
+    <form id="memorialForm" action="https://formspree.io/f/xgvwdoln" method="POST">
+        <div class="question">
+            <h2>Submitter Information:</h2>
+            <label for="submitterName">Your Name:</label>
+            <input type="text" id="submitterName" name="submitterName" required>
+            <label for="submitterEmail">Your Email:</label>
+            <input type="email" id="submitterEmail" name="submitterEmail" required>
+        </div>
+
+        <div class="question">
+            <h2>1. Please select the type of content you would like to create:</h2>
+            <div class="options">
+                <label class="option"><input type="checkbox" name="contentType[]" value="Eulogy"> Eulogy</label>
+                <label class="option"><input type="checkbox" name="contentType[]" value="Condolence letter"> Condolence letter</label>
+                <label class="option"><input type="checkbox" name="contentType[]" value="Memorial speech"> Memorial speech</label>
+                <label class="option"><input type="checkbox" name="contentType[]" value="Obituary"> Obituary</label>
+                <label class="option"><input type="checkbox" name="contentType[]" value="Poem"> Poem</label>
+                <label class="option"><input type="checkbox" name="contentType[]" value="Prose piece"> Prose piece</label>
+                <label class="option"><input type="checkbox" name="contentType[]" value="Memory book entry"> Memory book entry</label>
+                <label class="option"><input type="checkbox" name="contentType[]" value="Funeral program"> Funeral program</label>
+                <label class="option"><input type="checkbox" name="contentType[]" value="Memorial website content"> Memorial website content</label>
+                <label class="option"><input type="checkbox" name="contentType[]" value="Social media tribute post"> Social media tribute post</label>
+                <label class="option"><input type="checkbox" name="contentType[]" value="Epitaph"> Epitaph</label>
+                <label class="option"><input type="checkbox" name="contentType[]" value="Celebration of life ceremony script"> Celebration of life ceremony script</label>
+                <label class="option"><input type="checkbox" name="contentType[]" value="Memorial donation letter"> Memorial donation letter</label>
+                <label class="option"><input type="checkbox" name="contentType[]" value="Sympathy card message"> Sympathy card message</label>
+                <label class="option"><input type="checkbox" name="contentType[]" value="Legacy video script"> Legacy video script</label>
+                <label class="option"><input type="checkbox" name="contentType[]" value="Memorial playlist description"> Memorial playlist description</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>2. Please choose the tone or tones you would like to incorporate:</h2>
+            <div class="options">
+                <label class="option"><input type="checkbox" name="tone[]" value="Formal"> Formal</label>
+                <label class="option"><input type="checkbox" name="tone[]" value="Casual"> Casual</label>
+                <label class="option"><input type="checkbox" name="tone[]" value="Celebratory"> Celebratory</label>
+                <label class="option"><input type="checkbox" name="tone[]" value="Reflective"> Reflective</label>
+                <label class="option"><input type="checkbox" name="tone[]" value="Humorous (if appropriate)"> Humorous (if appropriate)</label>
+                <label class="option"><input type="checkbox" name="tone[]" value="Inspirational"> Inspirational</label>
+                <label class="option"><input type="checkbox" name="tone[]" value="Solemn"> Solemn</label>
+                <label class="option"><input type="checkbox" name="tone[]" value="Uplifting"> Uplifting</label>
+                <label class="option"><input type="checkbox" name="tone[]" value="Nostalgic"> Nostalgic</label>
+                <label class="option"><input type="checkbox" name="tone[]" value="Grateful"> Grateful</label>
+            </div>
+        </div>
+
+        <div class="question">
+            <h2>3. Please select the cultural or spiritual background(s) to be respected:</h2>
+            <div class="options">
+                <label class="option"><input type="checkbox" name="background[]" value="Christian"> Christian</label>
+                <label class="option"><input type="checkbox" name="background[]" value="Jewish"> Jewish</label>
+                <label class="option"><input type="checkbox" name="background[]" value="Muslim"> Muslim</label>
+                <label class="option"><input type="checkbox" name="background[]" value="Hindu"> Hindu</label>
+                <label class="option"><input type="checkbox" name="background[]" value="Buddhist"> Buddhist</label>
+                <label class="option"><input type="checkbox" name="background[]" value="Sikh"> Sikh</label>
+                <label class="option"><input type="checkbox" name="background[]" value="Atheist/Agnostic"> Atheist/Agnostic</label>
+                <label class="option"><input type="checkbox" name="background[]" value="Interfaith"> Interfaith</label>
+                <label class="option"><input type="checkbox" name="background[]" value="Native American/Indigenous"> Native American/Indigenous</label>
+                <label class="option"><input type="checkbox" name="background[]" value="African traditional religions"> African traditional religions</label>
+                <label class="option"><input type="checkbox" name="background[]" value="Taoist"> Taoist</label>
+                <label class="option"><input type="checkbox" name="background[]" value="Shinto"> Shinto</label>
+                <label class="option"><input type="checkbox" name="background[]" value="Pagan/Wiccan"> Pagan/Wiccan</label>
+                <label class="option"><input type="checkbox" name="background[]" value="Secular/Non-religious"> Secular/Non-religious</label>
+            </div>
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+    <div id="status"></div>
+
+    <script>
+        const form = document.getElementById('memorialForm');
+        const status = document.getElementById('status');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(form);
+
+            // Prepare the data for submission
+            let submissionData = {};
+            for (let [key, value] of formData.entries()) {
+                if (key.endsWith('[]')) {
+                    key = key.slice(0, -2);
+                    if (!submissionData[key]) {
+                        submissionData[key] = [];
+                    }
+                    submissionData[key].push(value);
+                } else {
+                    submissionData[key] = value;
+                }
+            }
+
+            // Add formatted response with {halt} tags
+            submissionData['formatted_response'] = `
+Submitter: ${submissionData['submitterName']} (${submissionData['submitterEmail']})
+{halt}
+1. ${submissionData['contentType'].join(', ')}
+{halt}
+2. ${submissionData['tone'].join(', ')}
+{halt}
+3. ${submissionData['background'].join(', ')}
+{halt}{end}
+            `.trim();
+
+            fetch(form.action, {
+                method: 'POST',
+                body: JSON.stringify(submissionData),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    status.innerHTML = "Thanks for your submission!";
+                    form.reset();
+                } else {
+                    response.json().then(data => {
+                        if (Object.hasOwn(data, 'errors')) {
+                            status.innerHTML = data["errors"].map(error => error["message"]).join(", ");
+                        } else {
+                            status.innerHTML = "Oops! There was a problem submitting your form";
+                        }
+                    })
+                }
+            }).catch(error => {
+                status.innerHTML = "Oops! There was a problem submitting your form";
+            });
+        });
+    </script>
+</body>
+</html>
